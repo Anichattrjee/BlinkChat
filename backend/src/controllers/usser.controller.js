@@ -123,5 +123,41 @@ export const acceptFriendRequest = async (req, res) => {
       //addToSet: adds element to the array only if they do not exist there
       $addToSet: { friends: friendRequest.sender },
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error in acceptFriendRequest Controller: ",error.message);
+        res.status(500).json({message:"Internal Server Error."});
+  }
 };
+
+export const getFriendRequests=async(req,res)=>{
+    try {
+        const incomingRequests=await FriendRequest.find({
+            recipient:req.user.id,
+            status:"pending"
+        }).populate("sender","fullName profilePic nativeLanguage learningLanguage");
+
+        const acceptedRequests=await FriendRequest.find({
+            sender:req.user.id,
+            status:"accepted"
+        }).populate("recipient", "fullName profilePic");
+
+        res.status(200).json({incomingRequests,acceptedRequests});
+    } catch (error) {
+        console.log("Error in getFriendRequests Controller: ",error.message);
+        res.status(500).json({message:"Internal Server Error."});
+    }
+};
+
+export const getOutgoingFriendRequests=async(req,res)=>{
+    try {
+        const outgoingRequests=await FriendRequest.find({
+            sender:req.user.id,
+            status:"pending"
+        }).populate("recipient","fullName profilePic nativeLanguage learningLanguage");
+
+        res.status(200).json(outgoingRequests);
+    } catch (error) {
+        console.log("Error in outgoingRequests Controller: ",error.message);
+        res.status(500).json({message:"Internal Server Error."});
+    }
+}
