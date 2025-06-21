@@ -8,4 +8,4 @@ const router=express.Router();
 //for generating a stream token which stream will use to authenticate users
 router.get("/token", protectRoute, getStreamToken);
 
-export default Router;
+export default router;
