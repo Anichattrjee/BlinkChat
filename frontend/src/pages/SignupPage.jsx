@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { ShipWheel } from "lucide-react";
 import { Link } from "react-router";
-import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {axiosInstance} from "../lib/axios";
-import { signup } from "../lib/api";
+import useSignup from "../hooks/useSignup";
 
 const SignupPage = () => {
   const [signUpData, setSignupData] = useState({
@@ -11,13 +9,15 @@ const SignupPage = () => {
     email: "",
     password: "",
   });
-  const queryClient=useQueryClient();
 
-  const {mutate: signUpMutation, isPending, error}= useMutation({
-    mutationFn:signup,
-    onSuccess:queryClient.invalidateQueries({queryKey:['authUser']})
-  });
+  //this is without using custom hook
+  // const queryClient=useQueryClient();
+  // const {mutate: signUpMutation, isPending, error}= useMutation({
+  //   mutationFn:signup,
+  //   onSuccess:queryClient.invalidateQueries({queryKey:['authUser']})
+  // });
 
+  const {error,isPending,signUpMutation}=useSignup();
 
   const handleSignUp = (e) => {
     e.preventDefault();
@@ -27,7 +27,7 @@ const SignupPage = () => {
   return (
     <div
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
-      data-theme="black"
+      data-theme="winter"
     >
       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-2xl shaodw-xl overflow-hidden">
         {/* Signup Form-left side */}
