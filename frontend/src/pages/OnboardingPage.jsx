@@ -47,7 +47,7 @@ const OnboardingPage = () => {
   return (
     <div
       className="min-h-screen bg-base-100 flex items-center justify-center p-4"
-      data-theme="pastel"
+      
     >
       <div className="card bg-base-200 w-full max-w-3xl shadow-xl">
         <div className="card-body p-6 sm:p-8">
