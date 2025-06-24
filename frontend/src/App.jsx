@@ -10,6 +10,7 @@ import CallPage from "./pages/CallPage.jsx";
 import { Toaster } from "react-hot-toast";
 import PageLoader from "./components/PageLoader.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
+import Layout from "./components/Layout.jsx"
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser(); //.user cause from the backend we are sending the user
@@ -17,16 +18,18 @@ const App = () => {
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
 
-  // if (!isLoading) return <PageLoader />;
+  // if (isLoading) return <PageLoader />;
 
   return (
-    <div className="h-screen" data-theme="coffee">
+    <div className="h-screen" data-theme="lemonade">
       <Routes>
         <Route
           path="/"
           element={
             isAuthenticated && isOnboarded ? (
-              <HomePage />
+              <Layout showSidebar={true}>
+                <HomePage/>
+              </Layout>
             ) : (
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )
