@@ -44,7 +44,7 @@ export const sendFriendRequest = async (req, res) => {
 
     //prevent sending request to yourself
 
-    if (myId == recipientId) {
+    if (myId === recipientId) {
       return res
         .status(400)
         .json({ message: "Cant send friend request to yourself" });
@@ -64,14 +64,16 @@ export const sendFriendRequest = async (req, res) => {
     }
 
     //check is a req already exists
-    const existingRequest = await FriendRequest.find({
+     // check if a req already exists
+    const existingRequest = await FriendRequest.findOne({
       $or: [
-        { sender: MyId, recipient: recipientId },
+        { sender: myId, recipient: recipientId },
         { sender: recipientId, recipient: myId },
       ],
     });
 
     if (existingRequest) {
+      
       return res.status(400).json({
         message: "A request already exists between you and this user.",
       });

@@ -20,7 +20,7 @@ const App = () => {
   const isOnboarded = authUser?.isOnboarded;
   const {theme}=useThemeStore();
 
-  // if (isLoading) return <PageLoader />;
+  if (isLoading) return <PageLoader />;
 
   return (
     <div className="h-screen" data-theme={theme}>

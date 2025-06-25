@@ -15,6 +15,6 @@ router.post("/friend-request/:id",sendFriendRequest);
 //this id below is not a users id its a friendRequest Id
 router.put("/friend-request/:id/accept",acceptFriendRequest);
 router.get("/friend-requests",getFriendRequests);
-router.get("/outgoing-friend-request",getOutgoingFriendRequests);
+router.get("/outgoing-friend-requests",getOutgoingFriendRequests);
 
 export default router;
