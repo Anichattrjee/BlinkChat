@@ -10,7 +10,7 @@ import CallPage from "./pages/CallPage.jsx";
 import { Toaster } from "react-hot-toast";
 import PageLoader from "./components/PageLoader.jsx";
 import useAuthUser from "./hooks/useAuthUser.js";
-import Layout from "./components/Layout.jsx"
+import Layout from "./components/Layout.jsx";
 import { useThemeStore } from "./store/useThemeStore.js";
 
 const App = () => {
@@ -18,7 +18,7 @@ const App = () => {
 
   const isAuthenticated = Boolean(authUser);
   const isOnboarded = authUser?.isOnboarded;
-  const {theme}=useThemeStore();
+  const { theme } = useThemeStore();
 
   if (isLoading) return <PageLoader />;
 
@@ -30,7 +30,7 @@ const App = () => {
           element={
             isAuthenticated && isOnboarded ? (
               <Layout showSidebar={true}>
-                <HomePage/>
+                <HomePage />
               </Layout>
             ) : (
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
@@ -43,14 +43,26 @@ const App = () => {
         />
         <Route
           path="/login"
-          element={!isAuthenticated ? <LoginPage /> : <Navigate to={isOnboarded ? "/":"/onboarding"} />}
+          element={
+            !isAuthenticated ? (
+              <LoginPage />
+            ) : (
+              <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+            )
+          }
         />
         <Route
           path="/onboarding"
           element={
-            isAuthenticated ?(
-              !isOnboarded ? (<OnboardingPage/>):(<Navigate to="/"/>)
-            ):(<Navigate to="/login"/>)
+            isAuthenticated ? (
+              !isOnboarded ? (
+                <OnboardingPage />
+              ) : (
+                <Navigate to="/" />
+              )
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         />
         <Route
@@ -64,7 +76,13 @@ const App = () => {
         <Route
           path="/notifications"
           element={
-            isAuthenticated ? <NotificationsPage /> : <Navigate to="/login" />
+            isAuthenticated && isOnboarded ? (
+              <Layout showSidebar={true}>
+                <NotificationsPage />
+              </Layout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
           }
         />
       </Routes>
